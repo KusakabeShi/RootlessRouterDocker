@@ -1,0 +1,21 @@
+#!/bin/bash
+set +e
+/etc/init.d/ssh start
+/etc/init.d/cron start
+/etc/init.d/syslog-ng start
+
+mkdir -p /home/root/.rootfs/etc/sv
+touch    /home/root/.rootfs/etc/crontab
+
+
+if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
+    echo "First run, creating rc.local"
+    rsync -a /tmp/.[^.]* /home/root
+    echo "#!/bin/bash" >> /home/root/.rootfs/etc/rc.local
+    echo "/etc/init.d/nginx start" >> /home/root/.rootfs/etc/rc.local
+    echo "apt-get update" >> /home/root/.rootfs/etc/rc.local
+    chmod 755 /home/root/.rootfs/etc/rc.local
+fi
+
+parser=$(head -n 1 /etc/rc.local)
+eval ${parser:2} /etc/rc.local
