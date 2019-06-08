@@ -9,12 +9,20 @@ touch    /home/root/.rootfs/etc/crontab
 
 
 if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
-    echo "First run, creating rc.local"
+    echo "First run"
     rsync -a /tmp/.[^.]* /home/root
-    echo "#!/bin/bash" >> /home/root/.rootfs/etc/rc.local
-    echo "/etc/init.d/nginx start" >> /home/root/.rootfs/etc/rc.local
-    echo "apt-get update" >> /home/root/.rootfs/etc/rc.local
+	
+	cat > /home/root/.rootfs/etc/rc.local << EOL
+#!/bin/bash
+/etc/init.d/nginx start
+rsync -a --no-perms --no-owner --no-group /home/root/.rootfs/etc/sv/* /etc/service
+apt-get update
+EOL
     chmod 755 /home/root/.rootfs/etc/rc.local
+	
+	mkdir -p  /home/root/.rootfs/var/www/html
+	rsync -a /var/www/html/* /home/root/.rootfs/var/www/html
+	ln -s ../../home/root/.rootfs/var/www/html /var/www/html
 fi
 
 parser=$(head -n 1 /etc/rc.local)
