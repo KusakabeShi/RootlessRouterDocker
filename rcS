@@ -4,25 +4,45 @@ set +e
 /etc/init.d/cron start
 /etc/init.d/syslog-ng start
 
-mkdir -p /home/root/.rootfs/etc/sv
+mkdir -p /home/root/.rootfs/etc/sv/
 touch    /home/root/.rootfs/etc/crontab
 
 
 if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
     echo "First run"
     rsync -a /tmp/.[^.]* /home/root
-	
-	cat > /home/root/.rootfs/etc/rc.local << EOL
+    
+    cat > /home/root/.rootfs/etc/rc.local << 'EOL'
 #!/bin/bash
 /etc/init.d/nginx start
-rsync -a --no-perms --no-owner --no-group /home/root/.rootfs/etc/sv/* /etc/service
+
+#copy services to /etc/service
+rsync -a --no-perms --no-owner --no-group --chmod=755 /home/root/.rootfs/etc/sv/* /etc/service
+
+sv start uptime_log
 apt-get update
 EOL
+    mkdir -p /home/root/.rootfs/etc/sv/uptime_log
+
+    cat > /home/root/.rootfs/etc/sv/uptime_log/run << 'EOL'
+#!/bin/bash
+#Modify this path, make it under /home, if you want to preserve the log of uptime of azure app service
+logfile="/tmp/uptime.log"
+IFS=$''
+echo "$logfile"
+echo "$(date +%m/%d,%T) up" >> "$logfile"
+echo "$(date +%m/%d,%T) down" >> "$logfile"
+while :
+do
+        sleep 1
+        echo $(head -n-1 "$logfile")$'\n'$(date +%m/%d,%T)" down" > "$logfile"
+done
+EOL
+    
     chmod 755 /home/root/.rootfs/etc/rc.local
-	
-	mkdir -p  /home/root/.rootfs/var/www/html
-	rsync -a /var/www/html/* /home/root/.rootfs/var/www/html
-	ln -s ../../home/root/.rootfs/var/www/html /var/www/html
+    mkdir -p  /home/root/.rootfs/var/www
+    mv /var/www/html /home/root/.rootfs/var/www
+    ln -s ../../home/root/.rootfs/var/www/html /var/www/html
 fi
 
 parser=$(head -n 1 /etc/rc.local)
