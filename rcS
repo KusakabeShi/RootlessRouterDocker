@@ -9,21 +9,30 @@ touch    /home/root/.rootfs/etc/crontab
 
 
 if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
+#Due to azure web service will mount /home to Non-volatile storage, orignal /home will always empty at first run.
+#So I have to create these files at first boot
     echo "First run"
     rsync -a /tmp/.[^.]* /home/root
-    
+########## rc.local
     cat > /home/root/.rootfs/etc/rc.local << 'EOL'
 #!/bin/bash
+#Run at every boot time
+
+#Modify here if you want to apache2 instead of nginx
 /etc/init.d/nginx start
 
-#copy services to /etc/service
-rsync -a --no-perms --no-owner --no-group --chmod=755 /home/root/.rootfs/etc/sv/* /etc/service
+#sync all files from ~/.rootfs to /
+rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /home/root/.rootfs/* /
 
 sv start uptime_log
 apt-get update
+apt-get upgrade
 EOL
-    mkdir -p /home/root/.rootfs/etc/sv/uptime_log
+	chmod 755 /home/root/.rootfs/etc/rc.local
 
+
+########### uptime log
+    mkdir -p /home/root/.rootfs/etc/sv/uptime_log
     cat > /home/root/.rootfs/etc/sv/uptime_log/run << 'EOL'
 #!/bin/bash
 #Modify this path, make it under /home, if you want to preserve the log of uptime of azure app service
@@ -39,10 +48,41 @@ do
 done
 EOL
     
-    chmod 755 /home/root/.rootfs/etc/rc.local
-    mkdir -p  /home/root/.rootfs/var/www
-    mv /var/www/html /home/root/.rootfs/var/www
-    ln -s ../../home/root/.rootfs/var/www/html /var/www/html
+###########Default Page
+mkdir -p /home/root/.rootfs/var/www/html
+cat > /home/root/.rootfs/var/www/html/index.nginx-debian.html << 'EOL'
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+EOL
+
+mkdir -p ../../home/root/.rootfs/var/lib/mysql
+
 fi
 
 parser=$(head -n 1 /etc/rc.local)
