@@ -19,3 +19,4 @@ ssh root@172.16.0.2 -p 2222
 
 ##How to use it:
 Upload to the docker hub, and deploy it to azure app service
+![Azure deploy example](https://i.imgur.com/uox9lwO.png)
