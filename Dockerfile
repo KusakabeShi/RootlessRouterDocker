@@ -12,13 +12,13 @@ RUN apt-get -y update && apt-get -y dist-upgrade && \
     apt-get -y install golang default-jdk python-pip python-setuptools python3-pip g++ gcc lua50 perl && \
     apt-get -y install net-tools traceroute iputils-* p7zip-full p7zip-rar kmod && \
     apt-get -y install ack atop autoconf bison build-essential byobu calcurse cloc cowsay dirmngr dstat dtach duplicity emacs gawk git-core glances gnupg2 iftop ipcalc iptraf ledger lftp libffi-dev libgdbm-dev libgmp-dev libncurses5-dev libpcap-dev libpq-dev libpq5 libreadline-dev libreadline5 libsqlite3-dev libssl-dev libtool libxml2-dev libxslt1-dev libyaml-dev mc mtr multitail netcat nethack-console nethogs netpipes newsbeuter nikto nnn oysttyer parallel pgadmin3 polipo postgresql powertop pydf qalc qbittorrent-nox ranger remind rsstail rsyncrypto rtorrent screen searchandrescue siege silversearcher-ag sl slashem slurm socat sqlite3 taskwarrior tig tor tor-geoipdb torsocks tpp tsung ttyrec vifm wyrd yersinia zlib1g-dev zlib1g-dev && \
-    apt-get autoremove -y && apt-get autoclean && \
+    apt-get -y autoremove && apt-get autoclean && \
     wget https://github.com/BurntSushi/ripgrep/releases/download/11.0.1/ripgrep_11.0.1_amd64.deb -P / && \
 	dpkg -i /ripgrep_11.0.1_amd64.deb && rm /ripgrep_11.0.1_amd64.deb && \
 	wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O /packages-microsoft-prod.deb && \
 	dpkg -i /packages-microsoft-prod.deb && rm /packages-microsoft-prod.deb && add-apt-repository universe && \
-    apt-get install apt-transport-https && apt-get update && apt-get install dotnet-sdk-2.2 && \
-	apt-get autoremove -y && apt-get autoclean && \
+    apt-get -y install apt-transport-https && apt-get update && apt-get -y install dotnet-sdk-2.2 && \
+	apt-get -y autoremove && apt-get autoclean && \
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf &&  ~/.fzf/install && \
     sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) --unattended" && \
     rm -rf /var/lib/apt/lists/* && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && locale-gen en_US.UTF-8 && \
