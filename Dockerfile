@@ -40,7 +40,7 @@ RUN mkdir -p /home/root/.rootfs/etc/sv && \
     rm -r /etc/sv        && ln -s ../home/root/.rootfs/etc/sv       /etc/sv && \
     rm    /etc/crontab   && ln -s ../home/root/.rootfs/etc/crontab  /etc/crontab && \
 	ln -s ../../home/root/.rootfs/var/www/html /var/www/html && \
-	mv /var/lib/mysql ~/.rootfs/var/lib/mysql && \
+	mkdir -p ~/.rootfs/var/lib && mv /var/lib/mysql ~/.rootfs/var/lib/mysql && \
 	ln -s ../../home/root/.rootfs/var/lib/mysql /var/lib/mysql && \
     ln -s ../home/root/.rootfs/etc/rc.local /etc/rc.local && \
     echo "eval \"\$(thefuck --alias)\"" >> ~/.bashrc && echo "eval \"\$(thefuck --alias)\"" >> ~/.zshrc && echo "thefuck --alias | source" >> /etc/fish/config.fish && \
