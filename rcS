@@ -49,8 +49,8 @@ done
 EOL
     
 ###########Default Page
-mkdir -p /home/root/.rootfs/var/www/html
-cat > /home/root/.rootfs/var/www/html/index.nginx-debian.html << 'EOL'
+	mkdir -p /home/root/.rootfs/var/www/html
+	cat > /home/root/.rootfs/var/www/html/index.nginx-debian.html << 'EOL'
 
 <!DOCTYPE html>
 <html>
@@ -81,7 +81,9 @@ Commercial support is available at
 
 EOL
 
-mkdir -p ../../home/root/.rootfs/var/lib/mysql
+	mkdir -p /home/root/.rootfs/var/lib/mysql
+
+	ln -s ln -s /etc/fish /home/root/.config/fish
 
 fi
 
