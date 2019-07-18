@@ -8,7 +8,7 @@ RUN apt-get -y update && apt-get -y dist-upgrade && \
     apt-get -y install apt-utils runit locales openssh-server cron vim git sudo rsync syslog-ng nginx apache2 software-properties-common && \
     apt-get -y install mysql-client mysql-server && \
     apt-get -y install php7.2-fpm php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl && \
-    apt-get -y install fish zsh tmux htop thefuck wget curl aria2 lsof tree ncdu && \
+    apt-get -y install fish zsh tmux htop thefuck wget curl aria2 lsof tree ncdu gdb && \
     apt-get -y install golang default-jdk python-pip python-setuptools python3 python3-pip python3-dev g++ gcc lua50 perl && \
 	pip3 install --upgrade git+https://github.com/arthaud/python3-pwntools.git speedtest-cli && \
     apt-get -y install net-tools traceroute iputils-* p7zip-full p7zip-rar kmod && \
@@ -40,6 +40,7 @@ RUN mkdir -p /home/root/.rootfs/etc/sv && \
     rm -r /etc/sv        && ln -s ../home/root/.rootfs/etc/sv       /etc/sv && \
     rm    /etc/crontab   && ln -s ../home/root/.rootfs/etc/crontab  /etc/crontab && \
 	ln -s ../../home/root/.rootfs/var/www/html /var/www/html && \
+	mv /var/lib/mysql ~/.rootfs/var/lib/mysql
 	ln -s ../../home/root/.rootfs/var/lib/mysql /var/lib/mysql && \
     ln -s ../home/root/.rootfs/etc/rc.local /etc/rc.local && \
     echo "eval \"\$(thefuck --alias)\"" >> ~/.bashrc && echo "eval \"\$(thefuck --alias)\"" >> ~/.zshrc && echo "thefuck --alias | source" >> /etc/fish/config.fish && \
