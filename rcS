@@ -6,8 +6,6 @@ set +e
 
 mkdir -p /home/root/.rootfs/etc/sv/
 touch    /home/root/.rootfs/etc/crontab
-rm -r /var/www/html
-ln -s ../../home/root/.rootfs/var/www/html /var/www/html
 
 if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
 #Due to azure web service will mount /home to Non-volatile storage, orignal /home will always empty at first run.
@@ -27,7 +25,7 @@ rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /home/root
 
 sv start uptime_log
 apt-get update
-apt-get upgrade
+apt-get -y upgrade
 EOL
 	chmod 755 /home/root/.rootfs/etc/rc.local
 
