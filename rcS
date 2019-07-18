@@ -6,7 +6,8 @@ set +e
 
 mkdir -p /home/root/.rootfs/etc/sv/
 touch    /home/root/.rootfs/etc/crontab
-
+rm -r /var/www/html
+ln -s ../../home/root/.rootfs/var/www/html /var/www/html
 
 if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
 #Due to azure web service will mount /home to Non-volatile storage, orignal /home will always empty at first run.
@@ -82,7 +83,7 @@ Commercial support is available at
 EOL
 
 	mkdir -p /home/root/.rootfs/var/lib/mysql
-
+	rm -r /home/root/.config/fish
 	ln -s /etc/fish /home/root/.config/fish
 
 fi
