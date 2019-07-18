@@ -83,7 +83,7 @@ EOL
 
 	mkdir -p /home/root/.rootfs/var/lib/mysql
 
-	ln -s ln -s /etc/fish /home/root/.config/fish
+	ln -s /etc/fish /home/root/.config/fish
 
 fi
 
