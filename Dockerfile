@@ -8,11 +8,11 @@ RUN apt-get -y update && apt-get -y dist-upgrade && \
     apt-get -y install apt-utils runit locales openssh-server cron vim git sudo rsync syslog-ng nginx apache2 software-properties-common && \
     apt-get -y install mysql-client mysql-server && \
     apt-get -y install php7.2-fpm php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl && \
-    apt-get -y install fish zsh tmux htop thefuck wget curl aria2 lsof tree ncdu gdb && \
+    apt-get -y install fish zsh tmux htop thefuck wget curl aria2 lsof tree ncdu && \
     apt-get -y install golang default-jdk python-pip python-setuptools python3 python3-pip python3-dev g++ gcc lua50 perl && \
 	pip3 install --upgrade git+https://github.com/arthaud/python3-pwntools.git speedtest-cli && \
     apt-get -y install net-tools traceroute iputils-* p7zip-full p7zip-rar kmod && \
-    apt-get -y install ack atop autoconf bison build-essential byobu calcurse cloc cowsay dirmngr dstat dtach duplicity emacs gawk git-core glances gnupg2 iftop ipcalc iptraf ledger lftp libffi-dev libgdbm-dev libgmp-dev libncurses5-dev libpcap-dev libpq-dev libpq5 libreadline-dev libreadline5 libsqlite3-dev libssl-dev libtool libxml2-dev libxslt1-dev libyaml-dev mc mtr multitail netcat nethack-console nethogs netpipes newsbeuter nikto nnn oysttyer parallel pgadmin3 polipo postgresql powertop pydf qalc qbittorrent-nox ranger remind rsstail rsyncrypto rtorrent screen searchandrescue siege silversearcher-ag sl slashem slurm socat sqlite3 taskwarrior tig tor tor-geoipdb torsocks tpp tsung ttyrec vifm wyrd yersinia zlib1g-dev zlib1g-dev && \
+    apt-get -y install ack atop autoconf bison build-essential byobu calcurse cloc cowsay dirmngr dstat dtach duplicity emacs gawk gdb git-core glances gnupg2 iftop ipcalc iptraf ledger lftp libffi-dev libgdbm-dev libgmp-dev libncurses5-dev libpcap-dev libpq-dev libpq5 libreadline-dev libreadline5 libsqlite3-dev libssl-dev libtool libxml2-dev libxslt1-dev libyaml-dev mc mtr multitail netcat nethack-console nethogs netpipes newsbeuter nikto nnn oysttyer parallel pgadmin3 polipo postgresql powertop pydf qalc qbittorrent-nox ranger remind rsstail rsyncrypto rtorrent screen searchandrescue siege silversearcher-ag sl slashem slurm socat sqlite3 taskwarrior tig tor tor-geoipdb torsocks tpp tsung ttyrec vifm wyrd yersinia zlib1g-dev zlib1g-dev && \
     apt-get -y autoremove && apt-get autoclean && \
     wget https://github.com/BurntSushi/ripgrep/releases/download/11.0.1/ripgrep_11.0.1_amd64.deb -P / && \
 	dpkg -i /ripgrep_11.0.1_amd64.deb && rm /ripgrep_11.0.1_amd64.deb && \
