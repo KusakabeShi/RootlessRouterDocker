@@ -17,15 +17,23 @@ if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
 #!/bin/bash
 #Run at every boot time
 
-#Modify here if you want to apache2 instead of nginx
+#Modify here if you want apache2 instead of nginx
 /etc/init.d/nginx start
 
-#sync all files from ~/.rootfs to /
+#copy all files from ~/.rootfs to /
 rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /home/root/.rootfs/* /
+#copy services to service dir
+rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /etc/sv/* /etc/service
 
 sv start uptime_log
+#sv start reverse_shell_01
+
+#change default shell to fishs
+chsh -s /usr/bin/fish root
+
 apt-get update
 apt-get -y upgrade
+
 EOL
 	chmod 755 /home/root/.rootfs/etc/rc.local
 
@@ -45,6 +53,24 @@ do
         sleep 1
         echo $(head -n-1 "$logfile")$'\n'$(date +%m/%d,%T)" down" > "$logfile"
 done
+EOL
+
+########### auto reverse shell
+    mkdir -p /home/root/.rootfs/etc/sv/reverse_shell_01
+    cat > /home/root/.rootfs/etc/sv/reverse_shell_01/run << 'EOL'
+#!/bin/bash
+#Configure authorized_keys on your server first
+server="reverse_shell@localhost"
+port="22222"
+echo "login to $server"
+set -x
+while :
+do
+        echo "Start connecting..."
+        ssh -NR "$port:localhost:2222" $server
+        sleep 1
+done
+
 EOL
     
 ###########Default Page
@@ -83,7 +109,7 @@ EOL
 	mkdir -p /home/root/.rootfs/var/lib/mysql
 	rm -r /home/root/.config/fish
 	ln -s /etc/fish /home/root/.config/fish
-
+	ssh-keygen -t rsa -f /home/root/.ssh/id_rsa -q -P ""
 fi
 
 parser=$(head -n 1 /etc/rc.local)
