@@ -53,3 +53,4 @@ chmod 755 /etc/init.d/rcS
 
 #delete self
 rm /tmp/install.sh
+exit 0
