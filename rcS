@@ -24,7 +24,7 @@ rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /etc/sv/* 
 
 #Modify here if you want apache2 instead of nginx
 /etc/init.d/nginx start
-#/usr/sbin/sshd -f /etc/sshd/sshd_nopwd_config
+#/usr/sbin/sshd -f /etc/ssh/sshd_nopwd_config
 #autossh -M 5678 -NR "22222:localhost:2223" root@localhost -p 12345
 
 #change to up if you want to run it
