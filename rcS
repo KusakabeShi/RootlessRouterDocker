@@ -28,7 +28,7 @@ rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /home/root
 #copy services to service dir
 rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /etc/sv/* /etc/service
 #/usr/sbin/sshd -f /etc/ssh/sshd_nopwd_config
-#autossh -M 5678 -NR "22222:localhost:2223" root@localhost -p 12345
+#autossh -M 22227 -fNR "22222:localhost:2223" reverse_tunnel@your.server.example.com -p your_ssh_port
 
 #change default shell to fishs
 chsh -s /usr/bin/fish root
