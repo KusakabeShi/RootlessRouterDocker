@@ -24,7 +24,7 @@ wget https://github.com/BurntSushi/ripgrep/releases/download/11.0.1/ripgrep_11.0
 dpkg -i /ripgrep_11.0.1_amd64.deb ; rm /ripgrep_11.0.1_amd64.deb
 wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O /packages-microsoft-prod.deb
 dpkg -i /packages-microsoft-prod.deb ; rm /packages-microsoft-prod.deb
-apt-get -y install apt-transport-https ; apt-get update ; apt-get -y install dotnet-sdk-2.2
+apt-get -y install apt-transport-https ; apt-get update ; apt-get -y install dotnet-runtime-2.2
 apt-get -y autoremove ; apt-get autoclean
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf ;  ~/.fzf/install
 sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) --unattended"
