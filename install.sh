@@ -1,5 +1,6 @@
 #!/bin/bash
 set -x
+set -e
 export HOME=/tmp
 export DEBIAN_FRONTEND=noninteractive
 echo "Install & update"
