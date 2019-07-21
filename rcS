@@ -33,6 +33,9 @@ sv down uptime_log
 #change default shell to fishs
 chsh -s /usr/bin/fish root
 
+#clean tmp folder
+rm -rf /tmp/{*,.*}
+
 apt-get update
 apt-get -y upgrade
 
