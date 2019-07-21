@@ -4,8 +4,10 @@ export HOME=/tmp
 export DEBIAN_FRONTEND=noninteractive
 echo "Install & update"
 apt-get -y update ; apt-get -y dist-upgrade
-apt-get -y install apt-utils runit locales openssh-server autossh cron vim git sudo rsync syslog-ng nginx apache2 software-properties-common
+apt-get -y install software-properties-common
 add-apt-repository universe
+apt-get -y update ; apt-get -y dist-upgrade
+apt-get -y install apt-utils runit locales openssh-server autossh cron vim git sudo rsync syslog-ng nginx apache2
 apt-get -y install mysql-client mysql-server
 apt-get -y install php7.2-fpm php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap 
 apt-get -y php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl
