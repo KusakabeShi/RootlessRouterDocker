@@ -3,7 +3,7 @@ set -x
 export HOME=/tmp
 export DEBIAN_FRONTEND=noninteractive
 echo "Install & update"
-apt-get -y update ; apt-get -y dist-upgrade
+apt-get -y update
 apt-get -y install software-properties-common
 add-apt-repository universe
 apt-get -y update ; apt-get -y dist-upgrade
