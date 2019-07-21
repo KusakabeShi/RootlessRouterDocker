@@ -19,22 +19,25 @@ if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
 
 #copy all files from ~/.rootfs to /
 rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /home/root/.rootfs/* /
-#copy services to service dir
-rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /etc/sv/* /etc/service
 
 #Modify here if you want apache2 instead of nginx
 /etc/init.d/nginx start
+
+
+
+#copy services to service dir
+rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /etc/sv/* /etc/service
 #/usr/sbin/sshd -f /etc/ssh/sshd_nopwd_config
 #autossh -M 5678 -NR "22222:localhost:2223" root@localhost -p 12345
-
-#change to up if you want to run it
-sv down uptime_log
 
 #change default shell to fishs
 chsh -s /usr/bin/fish root
 
 #clean tmp folder
 rm -rf /tmp/{*,.*}
+
+#change to up if you want to run it
+sv down uptime_log
 
 apt-get update
 apt-get -y upgrade
@@ -48,9 +51,11 @@ EOL
 	mkdir -p /home/root/.log
     cat > /home/root/.rootfs/etc/sv/uptime_log/run << 'EOL'
 #!/bin/bash
-#Log service uptime 
+#Log web app uptime 
 
-#Modify this path, make it under /home, if you want to preserve the log of uptime of azure app service
+#commit next line you want to enable me
+sleep infinity
+
 logfile="/home/root/.log/uptime.log"
 IFS=$''
 export TZ='Asia/Taipei'
@@ -59,7 +64,6 @@ echo "$(date +%m/%d,%T) up" >> "$logfile"
 echo "$(date +%m/%d,%T) down" >> "$logfile"
 while :
 do
-        #Disabled. Modify infinity to 1 to this service
         sleep 1
         echo $(head -n-1 "$logfile")$'\n'$(date +%m/%d,%T)" down" > "$logfile"
 done

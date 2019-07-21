@@ -5,8 +5,8 @@ COPY install.sh  /tmp
 COPY sshd_config /tmp
 COPY rcS         /tmp
 COPY locale      /tmp
-COPY sshd_nopwd_config /etc/ssh
 RUN  bash /tmp/install.sh
+COPY sshd_nopwd_config /etc/ssh
 
 ENV EDITOR vim
 ENV LANG en_US.UTF-8
