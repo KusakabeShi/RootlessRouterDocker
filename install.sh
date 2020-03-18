@@ -15,7 +15,7 @@ apt-get -y install php7.2-fpm php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2
 apt-get -y install php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl
 apt-get -y install fish zsh tmux htop thefuck wget curl aria2 lsof tree ncdu 
 apt-get -y install golang default-jdk python-pip python-setuptools python3 python3-pip python3-dev g++ gcc lua50 perl 
-pip3       install --upgrade git+https://github.com/arthaud/python3-pwntools.git speedtest-cli
+pip3       install --upgrade git+https://github.com/arthaud/python3-pwntools.git speedtest-cli tornado flask django 
 apt-get -y install net-tools iputils-* p7zip-full p7zip-rar 
 apt-get -y install ack atop autoconf bison build-essential byobu calcurse cloc dirmngr dstat dtach duplicity 
 apt-get -y install emacs gawk gdb git-core glances gnupg2 iftop ipcalc iptraf ledger lftp libsqlite3-dev libssl-dev libtool 
