@@ -1,7 +1,6 @@
 #!/bin/bash
 #Log web app uptime 
-
-#!/bin/bash
+. /.denv
 if [[ "$UPTIME_LOG" == 1 ]]; then
   echo "UPTIME_LOG enabled, uptime_log up"
   mkdir -p /home/root/.log/

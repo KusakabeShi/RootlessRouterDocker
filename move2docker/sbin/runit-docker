@@ -1,5 +1,6 @@
 #!/bin/bash
 set +e
+export > /.denv
 export LD_PRELOAD=/lib/runit-docker.so
 source /etc/profile
 /etc/init.d/rcS

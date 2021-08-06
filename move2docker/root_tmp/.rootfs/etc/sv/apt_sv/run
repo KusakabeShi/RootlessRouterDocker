@@ -1,4 +1,5 @@
 #!/bin/bash
+. /.denv
 if [[ "$APT_UPDATE" == 1 ]]; then
   echo "APT_UPDATE enabled, run apt-install update"
   apt-get update
