@@ -1,0 +1,9 @@
+#!/bin/bash
+#Run at every boot time
+
+#rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /home/root/.rootfs_ow/* /
+
+#change default shell to fish
+chsh -s /usr/bin/fish root
+
+echo "rc.local done"

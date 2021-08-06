@@ -1,0 +1,20 @@
+#!/bin/bash
+set +
+
+/etc/init.d/ssh start
+
+if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
+#Due to azure web service will mount /home to Non-volatile storage, orignal /home will always empty at first run.
+#So I have to create these files at first boot
+    echo "First run"
+    rsync -a /root_tmp/.[^.]* /home/root
+	chmod 755 /home/root/.rootfs/etc/rc.local
+	ssh-keygen -t rsa -f /home/root/.ssh/id_rsa -q -P ""
+fi
+
+echo "rcS finished. Runing /etc/rc.local"
+parser=$(head -n 1 /etc/rc.local)
+eval ${parser:2} /etc/rc.local
+
+#copy services to service dir
+rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /etc/sv/* /etc/service

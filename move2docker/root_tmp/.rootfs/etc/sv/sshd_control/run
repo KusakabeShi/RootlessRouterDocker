@@ -1,0 +1,9 @@
+#!/bin/bash
+if [[ "$AUTOSSH" == 1 ]]; then
+  echo "Autossh enabled, sshd_control up"
+  exec /usr/sbin/sshd -D -f /etc/ssh/sshd_nopwd_config
+else
+  echo "AUTOSSH not set, sshd_control down"
+  sv dowwn sshd_control
+  sleep infinity
+fi

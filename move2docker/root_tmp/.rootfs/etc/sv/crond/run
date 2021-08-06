@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "crond up"
+exec 2>&1
+cd /
+exec cron -f

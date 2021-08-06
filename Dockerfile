@@ -1,19 +1,22 @@
-FROM ubuntu
+# syntax = docker/dockerfile:experimental
+FROM --platform=$TARGETPLATFORM ubuntu
 VOLUME ["/home"]
 
-COPY install.sh  /tmp
-COPY sshd_config /tmp
-COPY rcS         /tmp
-COPY locale      /tmp
-RUN  chmod 755 /tmp/install.sh ; /tmp/install.sh
-COPY sshd_nopwd_config /etc/ssh
+COPY   *.c /tmp/
 
-ENV EDITOR vim
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
+COPY   install.sh /tmp/
+RUN    bash /tmp/install.sh
 
+COPY   install2.sh /tmp/
+RUN    bash /tmp/install2.sh
+
+
+RUN --mount=type=bind,source=move2docker,target=/tmp/move2docker rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /tmp/move2docker/* /;
+
+ENV EDITOR vim \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8
 
 EXPOSE 80 2222 8080
-
-ENTRYPOINT ["/sbin/runit"]
+ENTRYPOINT ["/sbin/runit-docker"]
 
