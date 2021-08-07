@@ -4,6 +4,23 @@ set -e
 mkdir /root_tmp
 export HOME=/root_tmp
 export DEBIAN_FRONTEND=noninteractive
+function get_cpu_architecture()
+{
+    local cpuarch=$(uname -m)
+    case $cpuarch in
+         x86_64)
+              echo "amd64";
+              ;;
+         aarch64)
+              echo "arm64";
+              ;;
+         *)
+              echo "Not supported cpu architecture: ${cpuarch}"  >&2
+              exit 1
+              ;;
+    esac
+}
+cpu_arch=$(get_cpu_architecture)
 . /etc/lsb-release
 echo "Install & update"
 sed -i 's|http://archive.|http://hk.archive.|g' /etc/apt/sources.list
@@ -19,7 +36,7 @@ apt-get -y install mysql-client mysql-server unzip \
  fish zsh tmux htop thefuck wget curl aria2 lsof tree ncdu \
  golang-go default-jre-headless python3-setuptools python3 python3-pip python3-dev g++ gcc \
  net-tools iputils-\* p7zip-full p7zip-rar mongodb shellcheck\
- autoconf bison build-essential gawk gdb git-core gnupg2 lftp libsqlite3-dev libssl-dev libtool \
+ autoconf bison build-essential llvm gawk gdb git-core gnupg2 lftp libsqlite3-dev libssl-dev libtool \
  netcat netpipes nmap nnn parallel postgresql \
  qalc ranger rsyncrypto dnsutils \
  sl socat sqlite3 tig tor tor-geoipdb torsocks ttyrec vifm zlib1g-dev zlib1g-dev
@@ -31,5 +48,19 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf ;  ~/.fzf/install
 sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) --unattended"
 rm -rf /var/lib/apt/lists/* ; localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 ; locale-gen en_US.UTF-8
 npm install -g configurable-http-proxy
+
+if [ "$cpu_arch" = "amd64" ]; then
+    echo "These packages are x86_64 only."
+    wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+    dpkg -i cloudflared-linux-amd64.deb
+    rm      cloudflared-linux-amd64.deb
+fi
+
+if [ "$cpu_arch" = "arm64" ]; then
+    echo "These packages are arm only."
+    wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64.deb
+    dpkg -i cloudflared-linux-arm64.deb
+    rm      cloudflared-linux-arm64.deb
+fi
 
 exit 0

@@ -14,14 +14,14 @@ docker run --rm --privileged docker/binfmt:820fdd95a9972a5308930a2bdfb8573dd4447
 # enable expremental feature
 export DOCKER_CLI_EXPERIMENTAL=enabled
 export DOCKER_BUILDKIT=1
-docker buildx create --name mybuilder --driver docker-container
-docker buildx use mybuilder
+docker buildx create --name mybuilder_az --driver docker-container
+docker buildx use mybuilder_az
 ```
 
 Build
 ```bash
 #In this case, we use "ubuntu-test" as image name. you can use wathever you want.
-docker buildx build -t whojk/ubuntu-azure-apps . --output="type=docker,name=whojk/ubuntu-azure-apps"
+docker buildx build  --platform linux/arm64,linux/amd64 -t whojk/ubuntu-azure-apps . --output="type=docker"
 docker push whojk/ubuntu-azure-apps
 
 #Test in localhost
