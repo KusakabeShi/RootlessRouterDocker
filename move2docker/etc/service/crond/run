@@ -2,4 +2,5 @@
 echo "crond up"
 exec 2>&1
 cd /
+pkill cron
 exec cron -f

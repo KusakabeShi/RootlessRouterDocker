@@ -1,6 +1,27 @@
 #!/bin/bash
+set -e
+function get_cpu_architecture()
+{
+    local cpuarch=$(uname -m)
+    case $cpuarch in
+         x86_64)
+              echo "amd64";
+              ;;
+         aarch64)
+              echo "arm64";
+              ;;
+         *)
+              echo "Not supported cpu architecture: ${cpuarch}"  >&2
+              exit 1
+              ;;
+    esac
+}
+export cpu_arch=$(get_cpu_architecture)
+export V2RAY_LOCAL_PORT="${V2RAY_LOCAL_PORT:-31372}"
+export V2RAY_PATH="${V2RAY_PATH:-/hidden/v2ray/path}"
 set +e
 export > /.denv
+chmod /.denv 700
 export LD_PRELOAD=/lib/runit-docker.so
 source /etc/profile
 /etc/init.d/rcS

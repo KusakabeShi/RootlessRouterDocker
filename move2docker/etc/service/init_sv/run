@@ -14,5 +14,5 @@ else
   done
 fi
 echo "INIT_SERVICE done"
-sv init_sv down
-sleep infinity
+sv down init_sv
+exec sleep infinity

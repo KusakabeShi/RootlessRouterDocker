@@ -17,6 +17,6 @@ if [[ "$UPTIME_LOG" == 1 ]]; then
 else
   echo "UPTIME_LOG disabled, uptime_log down"
   sv down uptime_log
-  sleep infinity
+  exec sleep infinity
 fi
 

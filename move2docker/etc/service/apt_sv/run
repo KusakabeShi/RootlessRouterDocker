@@ -1,5 +1,6 @@
 #!/bin/bash
 . /.denv
+set -x
 if [[ "$APT_UPDATE" == 1 ]]; then
   echo "APT_UPDATE enabled, run apt-install update"
   apt-get update
@@ -10,4 +11,4 @@ if [[ "$APT_UPGRADE" == 1 ]]; then
 fi
 echo "APT service done"
 sv down apt_sv
-sleep infinity
+exec sleep infinity

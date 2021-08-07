@@ -1,0 +1,14 @@
+#!/bin/bash
+. /.denv
+set -x
+if [[ "$CLOUDFLARED" == 1 ]]; then
+  echo "cloudflared enabled"
+  mkdir -p /etc/cloudflared
+  printf -- "${CLOUDFLARED_CERT}" > /etc/cloudflared/cert.pem
+  pkill cloudflared
+  exec cloudflared --no-autoupdate --hostname $CLOUDFLARED_DOMAIN --url http://127.0.0.1:81
+else
+  echo "cloudflared not enabled, down"
+  sv down cloudflared
+  exec sleep infinity
+fi

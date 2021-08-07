@@ -1,0 +1,13 @@
+#!/bin/bash
+. /.denv
+set -x
+echo "Starting nginx"
+cd /etc/nginx/conf.d
+export DOLLAR='$'
+for template in *.template; do
+    [ -f "$template" ] || continue
+    conf=${template::-9}
+    cat $template | sed -e 's/\${/＄/g' | sed 's/\$/${DOLLAR}/g' | sed 's/＄/${/g' | envsubst > $conf
+done
+pkill nginx
+exec nginx -g "daemon off;" -c /etc/nginx/nginx.conf
