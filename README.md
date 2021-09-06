@@ -18,15 +18,18 @@ docker buildx create --name mybuilder_az --driver docker-container
 docker buildx use mybuilder_az
 ```
 
-Build
+Build in local
 ```bash
-#In this case, we use "ubuntu-test" as image name. you can use wathever you want.
-docker buildx build  --platform linux/arm64,linux/amd64 -t whojk/ubuntu-azure-apps . --output="type=docker"
-docker push whojk/ubuntu-azure-apps
+docker buildx build  --platform linux/amd64 -t whojk/ubuntu-azure-apps . --output="type=docker"
 
 #Test in localhost
-docker run -d ubuntu-test
-ssh root@172.16.0.2 -p 2222
+docker run -it --rm --env-file=env_file_example --name=az whojk/ubuntu-azure-apps
+docker exec -it az bash
+```
+
+Build and push
+```bash
+docker buildx build  --platform linux/arm64,linux/amd64 -t whojk/ubuntu-azure-apps . --push
 ```
 
 ## How to use it:

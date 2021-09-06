@@ -35,11 +35,7 @@ apt-get -y install mysql-client mysql-server unzip \
  fish zsh tmux htop thefuck wget curl aria2 lsof tree ncdu \
  golang-go default-jre-headless python3-setuptools python3 python3-pip python3-dev g++ gcc \
  net-tools iputils-\* p7zip-full p7zip-rar mongodb shellcheck\
-<<<<<<< HEAD
  autoconf bison llvm gawk gdb git-core gnupg2 lftp libsqlite3-dev libssl-dev libtool \
-=======
- autoconf bison build-essential llvm gawk gdb git-core gnupg2 lftp libsqlite3-dev libssl-dev libtool \
->>>>>>> 0f7377d52a3a538d23dd979955672a18285056bd
  netcat netpipes nmap nnn parallel postgresql \
  qalc ranger rsyncrypto dnsutils \
  sl socat sqlite3 tig tor tor-geoipdb torsocks ttyrec vifm zlib1g-dev zlib1g-dev
@@ -83,19 +79,4 @@ wget https://raw.githubusercontent.com/v2fly/docker/master/v2ray.sh -O v2ray.sh
 v2ray_latest_tag=$(curl -sSL --retry 5 "https://api.github.com/repos/v2fly/v2ray-core/releases/latest" | jq .tag_name | awk -F '"' '{print $2}')
 chmod 755 v2ray.sh
 ./v2ray.sh linux/$cpu_arch $v2ray_latest_tag
-
-if [ "$cpu_arch" = "amd64" ]; then
-    echo "These packages are x86_64 only."
-    wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-    dpkg -i cloudflared-linux-amd64.deb
-    rm      cloudflared-linux-amd64.deb
-fi
-
-if [ "$cpu_arch" = "arm64" ]; then
-    echo "These packages are arm only."
-    wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64.deb
-    dpkg -i cloudflared-linux-arm64.deb
-    rm      cloudflared-linux-arm64.deb
-fi
-
 exit 0
