@@ -17,6 +17,8 @@ mkdir -p $PERM_ROOT/var/lib   ; mv    /var/lib/mysql      $PERM_ROOT/var/lib/mys
 mkdir -p $PERM_ROOT/var/lib   ; mv    /var/lib/postgresql $PERM_ROOT/var/lib/postgresql  ; ln -s ../../home/root/.rootfs/var/lib/postgresql   /var/lib/postgresql
 mkdir -p $PERM_ROOT/var/lib   ; mv    /var/lib/mongodb    $PERM_ROOT/var/lib/mongodb     ; ln -s ../../home/root/.rootfs/var/lib/mongodb      /var/lib/mongodb 
                                                                                            ln -s ../home/root/.rootfs/etc/rc.local            /etc/rc.local
+rm -r /etc/nginx/sites-enabled/*
+rm -r /etc/nginx/sites-available/*
 echo "eval \"\$(thefuck --alias)\"" >> ~/.bashrc
 echo "eval \"\$(thefuck --alias)\"" >> ~/.zshrc
 echo "thefuck --alias | source" >> /etc/fish/config.fish

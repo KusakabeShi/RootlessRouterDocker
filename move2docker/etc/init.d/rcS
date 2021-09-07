@@ -7,7 +7,6 @@ if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
 #Due to azure web service will mount /home to Non-volatile storage, orignal /home will always empty at first run.
 #So I have to create these files at first boot
     echo "First run"
-    rm -r /etc/nginx/sites-enabled/*
     rsync -a /root_tmp/.[^.]* /home/root
     chmod 755 /home/root/.rootfs/etc/rc.local
     ssh-keygen -t rsa -f /home/root/.ssh/id_rsa -q -P ""
