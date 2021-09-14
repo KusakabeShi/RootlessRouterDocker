@@ -1,0 +1,15 @@
+#!/bin/bash
+. /.denv
+if [[ "$VPP_DNS" == 1 ]]; then
+  echo "vpp_dns enabled, start vpp_dns_unix2vpp"
+  if /etc/vpp/checkvpponline.sh ; then
+    true
+  else
+    exec sleep 3
+  fi
+  exec vppnet socat UNIX-LISTEN:/run/dns.sock,reuseaddr,fork udp:172.20.0.53:53
+else
+  echo "vpp_dns not enabled, vpp_dns_unix2vpp down"
+  sv down vpp_dns_unix2vpp
+  exec sleep infinity
+fi

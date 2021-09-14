@@ -1,0 +1,24 @@
+#!/bin/bash
+. /.denv
+if [[ "$BIRD" == 1 ]]; then
+  echo "bird enabled, start"
+  if /etc/vpp/checkvpponline.sh ; then
+    true
+  else
+    exec sleep 3
+  fi
+  vppctl show session verbose | grep 179 && {
+    echo "Session not clean, wait..."
+    exec sleep 3
+  }
+  rm -r /etc/bird/nodes || true
+  /etc/bird/nodes_template/start.sh
+  template="/etc/bird/bird.conf.template"
+  conf="/etc/bird/bird.conf"
+  cat $template | sed -e 's/\${/＄/g' | sed 's/\$/${DOLLAR}/g' | sed 's/＄/${/g' | envsubst > $conf
+  exec vppnet bird -f -c /etc/bird/bird.conf
+else
+  echo "bird not enabled, down"
+  sv down bird
+  exec sleep infinity
+fi

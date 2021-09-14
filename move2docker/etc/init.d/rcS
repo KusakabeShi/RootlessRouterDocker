@@ -9,12 +9,8 @@ if [[ ! -e /home/root/.rootfs/etc/rc.local ]]; then
     echo "First run"
     rsync -a /root_tmp/.[^.]* /home/root
     chmod 755 /home/root/.rootfs/etc/rc.local
-    ssh-keygen -t rsa -f /home/root/.ssh/id_rsa -q -P ""
 fi
 
-echo "rcS finished. Runing /etc/rc.local"
-parser=$(head -n 1 /etc/rc.local)
-eval ${parser:2} /etc/rc.local
 
-#copy services to service dir
-rsync -a --no-perms --no-owner --no-group --chmod=755 --keep-dirlinks /etc/sv/* /etc/service
+
+echo "rcS finished."

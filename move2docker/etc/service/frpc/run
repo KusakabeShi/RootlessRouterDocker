@@ -1,6 +1,5 @@
 #!/bin/bash
 . /.denv
-set -x
 if [[ "$FRPC" == 1 ]]; then
   echo "frpc enabled, start frpc"
   exec frpc -c /etc/frp/frpc.ini

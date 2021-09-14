@@ -1,0 +1,20 @@
+#!/bin/bash
+. /.denv
+if [[ "$EG" == 1 ]]; then
+  if /etc/vpp/checkvpponline.sh ; then
+    true
+  else
+    exec sleep 3
+  fi
+  echo "etherguard enabled, start"
+  template="/etc/eggo/edge.yaml.template"
+  conf="/etc/eggo/edge.yaml"
+  cat $template | sed -e 's/\${/＄/g' | sed 's/\$/${DOLLAR}/g' | sed 's/＄/${/g' | envsubst > $conf
+  vppctl delete interface memif memif1/1
+  vppctl delete memif socket id 1
+  exec etherguard-go-vpp -config /etc/eggo/edge.yaml -mode edge
+else
+  echo "etherguard not enabled, down"
+  sv down etherguard
+  exec sleep infinity
+fi

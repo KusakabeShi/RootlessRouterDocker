@@ -15,7 +15,7 @@ server {
 
     # Managing literal requests to the JupyterHub front end
     location / {
-        proxy_pass http://127.0.0.1:${CLOUDFLARED_PORT};
+        proxy_pass http://127.0.0.1:${BIRDLG_PORT};
         proxy_set_header Host $host;
         proxy_set_header X-Real-Scheme $scheme;
         proxy_set_header X-Real-IP $remote_addr;
@@ -26,6 +26,20 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
     }
+
+    location /${DN42AP_URLPREFIX}/ {
+        proxy_pass http://127.0.0.1:${DN42AP_PORT};
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-Scheme $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+        #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_http_version  1.1;
+
+        # websocket headers
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+
     location ${V2RAY_PATH} {
         proxy_redirect off;
         proxy_pass http://127.0.0.1:${V2RAY_LOCAL_PORT};

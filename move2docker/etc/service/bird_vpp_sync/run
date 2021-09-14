@@ -1,0 +1,26 @@
+#!/bin/bash
+. /.denv
+if [[ "$BIRD_VPP_SYNC" == 1 ]]; then
+  echo "bird_vpp_sync enabled, start"
+  if [ ! -f /usr/bin/bird_vpp_sync.py ]; then
+    echo "File not found!"
+    curl https://raw.githubusercontent.com/KusakabeSi/bird-vpp-route-syncer/main/bird_vpp_sync.py --output /usr/bin/bird_vpp_sync.py.tmp
+    mv /usr/bin/bird_vpp_sync.py.tmp /usr/bin/bird_vpp_sync.py
+    chmod 755 /usr/bin/bird_vpp_sync.py
+  fi
+  if /etc/vpp/checkvpponline.sh ; then
+    true
+  else
+    exec sleep 3
+  fi
+  if bird_vpp_sync.py loop${VPP_LOOPID}  ; then
+      exec sleep 30
+  else
+      echo "BIRD not ready, sleep 3 seconds..."
+      exec sleep 3
+  fi
+else
+  echo "bird_vpp_sync not enabled, down"
+  sv down bird_vpp_sync
+  exec sleep infinity
+fi

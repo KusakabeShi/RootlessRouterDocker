@@ -1,6 +1,5 @@
 #!/bin/bash
 . /.denv
-set -x
 echo "Starting nginx"
 cd /etc/nginx/conf.d
 export DOLLAR='$'
