@@ -1,0 +1,11 @@
+#!/bin/bash
+. /.denv
+if [[ "$VPP" == 1 ]]; then
+  echo "vpp_cpulimit enabled, start"
+  sleep infinity
+  exec cpulimit -P /usr/bin/vpp -l 3
+else
+  echo "vpp_cpulimit not enabled, down"
+  sv down vpp_cpulimit
+  exec sleep infinity
+fi

@@ -1,0 +1,11 @@
+#!/bin/bash
+. /.denv
+if [[ "$BIRD" == 1 ]]; then
+  echo "bird_cpulimit enabled, start"
+  sleep infinity
+  exec cpulimit -P /usr/bin/bird -l 1
+else
+  echo "bird_cpulimit not enabled, down"
+  sv down bird_cpulimit
+  exec sleep infinity
+fi

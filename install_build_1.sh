@@ -12,5 +12,11 @@ cp -p sbin/bird                                       /usr/bin/bird
 cp -p sbin/birdc                                      /usr/bin/birdc
 cp -p sbin/birdcl                                     /usr/bin/birdcl
 cp -p usr/bin/wg                                      /usr/bin/wg
+cd /buildroot/root_tmp/vpp/build-root
+dpkg -i libvppinfra_*_amd64.deb
+dpkg -i vpp_*_amd64.deb             || apt-get -f install -y
+dpkg -i vpp-plugin-core_*_amd64.deb || apt-get -f install -y
+dpkg -i vpp-plugin-core_*_amd64.deb || apt-get -f install -y
+dpkg -i python3-vpp-api_*_amd64.deb || apt-get -f install -y
 rm -rf /tmp
 mkdir -p /tmp

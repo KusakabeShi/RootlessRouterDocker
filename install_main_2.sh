@@ -24,9 +24,9 @@ cpu_arch=$(get_cpu_architecture)
 echo "Install & update"
 echo "deb [trusted=yes] https://packagecloud.io/fdio/release/ubuntu focal main" > /etc/apt/sources.list.d/99fd.io.list
 curl -L https://packagecloud.io/fdio/release/gpgkey | apt-key add -
-echo "deb [trusted=yes] https://packagecloud.io/fdio/master/ubuntu focal main" > /etc/apt/sources.list.d/m.99fd.io.list
-curl -L https://packagecloud.io/fdio/master/gpgkey | apt-key add -
+#echo "deb [trusted=yes] https://packagecloud.io/fdio/master/ubuntu focal main" > /etc/apt/sources.list.d/m.99fd.io.list
+#curl -L https://packagecloud.io/fdio/master/gpgkey | apt-key add -
 apt-get -y update
-apt-get -y install  vpp vpp-plugin-core python3-vpp-api vpp-dbg libmemif
+apt-get -y install libmemif # vpp vpp-plugin-core python3-vpp-api vpp-dbg libmemif cpulimit
 
 exit 0

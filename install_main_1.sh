@@ -28,7 +28,7 @@ apt-get -y install software-properties-common wget curl
 add-apt-repository universe
 apt-get -y update
 apt-get -y dist-upgrade
-apt-get -y install apt-utils runit locales openssh-server cron vim git sudo rsync nginx-extras jq gettext tcptraceroute
+apt-get -y install apt-utils runit locales openssh-server cron vim git sudo rsync nginx-extras jq gettext tcptraceroute cpulimit
 apt-get -y install unzip fish zsh tmux htop aria2 lsof tree ncdu \
  python3-setuptools python3 python3-pip \
  net-tools iputils-\* p7zip-full p7zip-rar \
