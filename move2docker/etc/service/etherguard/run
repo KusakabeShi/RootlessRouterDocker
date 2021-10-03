@@ -1,11 +1,6 @@
 #!/bin/bash
 . /.denv
 if [[ "$EG" == 1 ]]; then
-  if /etc/vpp/checkvpponline.sh ; then
-    true
-  else
-    exec sleep 3
-  fi
   echo "etherguard enabled, start"
   template="/etc/eggo/edge.yaml.template"
   conf="/etc/eggo/edge.yaml"
