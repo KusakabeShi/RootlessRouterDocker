@@ -1,0 +1,55 @@
+#!/bin/bash
+set -e
+function get_cpu_architecture()
+{
+    local cpuarch=$(uname -m)
+    case $cpuarch in
+         x86_64)
+              echo "amd64";
+              ;;
+         aarch64)
+              echo "arm64";
+              ;;
+         *)
+              echo "Not supported cpu architecture: ${cpuarch}"  >&2
+              exit 1
+              ;;
+    esac
+}
+export cpu_arch=$(get_cpu_architecture)
+
+# retrive configs from repo
+export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+mkdir -p /home/root
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+printf -- "${SSH_KEY}" > ~/.ssh/id_rsa
+chmod 600 ~/.ssh/*
+ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
+git clone --depth 1 $GIT_REPO_ADDR /git_sync_root
+ln -s git_sync_root/${NODE_NAME} /git_sync_self
+#exec bash
+rsync -a --keep-dirlinks /git_sync_root/_common/ /
+rsync -a --keep-dirlinks /git_sync_root/${NODE_NAME}/ow/ /
+
+python3 /git_sync_root/env_2_bash.py /git_sync_root/_common_env /git_sync_root/${NODE_NAME}/env > /.denv
+chmod 700 /.denv
+. /.denv
+
+
+git config --global user.email "$GIT_EMAIL"
+git config --global user.name "$GIT_USER"
+
+# set default env var
+export V2RAY_LOCAL_PORT="${V2RAY_LOCAL_PORT:-31372}"
+export V2RAY_PATH="${V2RAY_PATH:-/hidden/v2ray/path}"
+set +e
+export LD_PRELOAD=/lib/runit-docker.so
+source /etc/profile
+/etc/init.d/rcS
+
+
+parser=$(head -n 1 /etc/rc.local)
+eval ${parser:2} /etc/rc.local
+
+exec runsvdir /etc/service

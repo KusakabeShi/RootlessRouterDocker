@@ -32,8 +32,6 @@ ip route add default via 172.16.0.1
 mount -t tmpfs tmpfs /run
 mount -t tmpfs tmpfs /var/run
 
-
-
 cd /etc/wireguard/
 wg-quick up wgcf-profile
 
