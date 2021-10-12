@@ -21,6 +21,12 @@ function get_cpu_architecture()
 }
 cpu_arch=$(get_cpu_architecture)
 . /etc/lsb-release
+
+mkdir /etc/uml
+cd /etc/uml
+dd if=/dev/zero of=data.img bs=1M count=512
+mkfs.ext3 data.img
+
 # echo "Install & update"
 # echo "deb [trusted=yes] https://packagecloud.io/fdio/release/ubuntu focal main" > /etc/apt/sources.list.d/99fd.io.list
 # curl -L https://packagecloud.io/fdio/release/gpgkey | apt-key add -

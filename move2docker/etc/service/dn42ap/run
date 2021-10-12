@@ -4,9 +4,15 @@ if [[ "$DN42AP" == 1 ]]; then
   echo "dn42ap enabled, start"
   if [ ! -d /etc/dn42ap_py ]; then
     echo "Directory not found!"
-    git clone --depth 1 https://github.com/KusakabeSi/DN42-AutoPeer /etc/dn42ap_py
+    git clone --depth 1 https://github.com/KusakabeSi/DN42-AutoPeer.git /etc/dn42ap_py
     #ln -s /ext/DN42-AutoPeer /etc/dn42ap_py
     chmod 755 /etc/dn42ap_py/*
+  fi
+  if birdc s p ; then
+    true
+  else
+    echo "BIRD not ready, wait 8 seconds"
+    exec sleep 8
   fi
   cd /etc/dn42ap_py
   exec python3 /etc/dn42ap_py/DN42AutoPeer.py

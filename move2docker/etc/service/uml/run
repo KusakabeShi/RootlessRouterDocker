@@ -1,0 +1,35 @@
+#!/bin/bash
+. /.denv
+if [[ "$UML" == 1 ]]; then
+  echo "uml enabled, start"
+  mkdir -p /tmp/uml
+  export TEMP=/tmp/uml
+  exec 3<>/dev/null
+  mkfs.ext3 -F /etc/uml/data.img
+  if [ -S "/run/slirpnetstack.sock" ] && [ -S "/run/etherguard.sock" ]; then
+      true
+  else 
+      echo "Etgerguard or slirpnetns not ready, wait 3 secs"
+      exec sleep 3
+  fi
+  vec2=""
+  
+  if [[ "$UML_IF_RAW" == 1 ]]; then
+    vec2="vec2:transport=raw,ifname=eth0,depth=128,gro=1"
+  fi
+  
+  exec linux-um \
+    root=/dev/root rootfstype=hostfs hostfs=/ \
+    ubd0=/etc/uml/data.img \
+    con=fd:3,fd:1 \
+    vec0:transport=bess,dst=/run/slirpnetstack.sock,depth=128,gro=0 \
+    vec1:transport=bess,dst=/run/etherguard.sock,depth=128,gro=0 \
+    $vec2 \
+    rw mem=256M init=/sbin/runit-uml quiet
+
+    #con0=fd:0,fd:1 \
+else
+  echo "uml not enabled, down"
+  sv down uml
+  exec sleep infinity
+fi

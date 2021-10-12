@@ -1,0 +1,25 @@
+#!/bin/bash
+. /.denv
+if [[ "$WG" == 1 ]]; then
+  echo "wg enabled"
+  set +e
+  set -x
+  cd /etc/dn42ap
+  for f in *.sh; do
+    bash "$f"
+  done
+  while true
+  do
+    for scriptname in *.sh; do
+      [ -f "$scriptname" ] || continue
+      ifname=${scriptname::-3}
+      wg setconf "$ifname" "$ifname.conf"
+    done
+    sleep "$WG_SYNC_INTERVAL"
+  done
+else
+  echo "wg not enabled, down"
+  sv down wg_sync
+  exec sleep infinity
+fi
+

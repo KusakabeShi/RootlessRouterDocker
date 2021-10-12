@@ -1,55 +1,54 @@
 #!/bin/bash
-set -e
-function get_cpu_architecture()
-{
-    local cpuarch=$(uname -m)
-    case $cpuarch in
-         x86_64)
-              echo "amd64";
-              ;;
-         aarch64)
-              echo "arm64";
-              ;;
-         *)
-              echo "Not supported cpu architecture: ${cpuarch}"  >&2
-              exit 1
-              ;;
-    esac
-}
-export cpu_arch=$(get_cpu_architecture)
-
-# retrive configs from repo
-export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-mkdir -p /home/root
-mkdir -p ~/.ssh
-chmod 700 ~/.ssh
-printf -- "${SSH_KEY}" > ~/.ssh/id_rsa
-chmod 600 ~/.ssh/*
-ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
-git clone --depth 1 $GIT_REPO_ADDR /git_sync_root
-ln -s git_sync_root/${NODE_NAME} /git_sync_self
-#exec bash
-rsync -a --keep-dirlinks /git_sync_root/_common/ /
-rsync -a --keep-dirlinks /git_sync_root/${NODE_NAME}/ow/ /
-
-python3 /git_sync_root/env_2_bash.py /git_sync_root/_common_env /git_sync_root/${NODE_NAME}/env > /.denv
-chmod 700 /.denv
+set +e
 . /.denv
 
+mount -t tmpfs tmpfs /mnt
+mkdir -p /mnt/data
+mount /dev/ubda /mnt/data || true
 
-git config --global user.email "$GIT_EMAIL"
-git config --global user.name "$GIT_USER"
+mkdir -p /mnt/data/diff
+mkdir -p /mnt/data/work
 
-# set default env var
-export V2RAY_LOCAL_PORT="${V2RAY_LOCAL_PORT:-31372}"
-export V2RAY_PATH="${V2RAY_PATH:-/hidden/v2ray/path}"
-set +e
+mount -t overlay overlay -o lowerdir=/,upperdir=/mnt/data/diff,workdir=/mnt/data/work /
+
+mount -t tmpfs tmpfs /run
+mount --bind /run /var/run
+mount -t tmpfs tmpfs /etc/service
+mount -t proc proc /proc
+mount -t sysfs sys /sys
+ln -s /proc/self/fd /dev/fd
+
+sysctl -w net.ipv4.ip_forward=1
+sysctl -w net.ipv6.conf.default.forwarding=1
+sysctl -w net.ipv6.conf.all.forwarding=1
+sysctl -w net.ipv4.conf.default.rp_filter=0
+sysctl -w net.ipv4.conf.all.rp_filter=0
+
+ip addr add $UML_IF_SLIRP_IPV4 dev vec0
+ip link set dev vec0 address $UML_IF_SLIRP_MACADDR
+ip link set vec0 up
+ip route add default via $UML_IF_SLIRP_IPV4_GW
+
+ip addr add $DN42_IPV4/$DN42_IPV4_NET_CHECK_LEN dev vec1
+ip addr add $DN42_IPV6/$DN42_IPV6_NET_CHECK_LEN dev vec1
+ip addr add $DN42_IPV6_LL/64 dev vec1
+ip link set dev vec1 address $EG_MACADDR
+ip link set vec1 mtu $EG_IF_MTU
+ip link set vec1 up
+
+if [[ "$UML_IF_RAW" == 1 ]]; then
+  ip addr add $UML_IF_RAW_IPV4 dev vec2
+  ip link set dev vec2 address $UML_IF_RAW_MACADDR
+  ip link set vec2 up
+  ip route del default via $UML_IF_SLIRP_IPV4_GW
+  ip route add default via $UML_IF_RAW_IPV4_GW
+fi
+
+cp -rp /etc/service_uml/* /etc/service
+
 export LD_PRELOAD=/lib/runit-docker.so
 source /etc/profile
-/etc/init.d/rcS
+export HOME=/root
 
-
-parser=$(head -n 1 /etc/rc.local)
-eval ${parser:2} /etc/rc.local
-
+#exec bash
 exec runsvdir /etc/service

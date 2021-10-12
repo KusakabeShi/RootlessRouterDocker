@@ -1,0 +1,11 @@
+#!/bin/bash
+. /.denv
+if [[ "$COMMAND_SSH" == 1 ]]; then
+  echo "command_ssh enabled, up"
+  mkdir -p /run/sshd
+  exec /usr/sbin/sshd -D -f /etc/ssh/sshd_config_uml
+else
+  echo "command_ssh not set, down"
+  sv down sshd_control
+  exec sleep infinity
+fi

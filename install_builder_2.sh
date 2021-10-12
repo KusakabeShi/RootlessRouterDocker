@@ -4,9 +4,19 @@ set -e
 HOME=/root_tmp
 
 cd ~
-git clone  -b linux-5.10.y --single-branch https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git 
+git clone --depth 1  https://github.com/KusakabeSi/slirpnetstack slirpnetstack
+cd slirpnetstack
+go mod vendor
+make
+ls bin
+
+cd ~
+git clone --depth 1 https://github.com/KusakabeSi/UML-Config UML-Config 
+
+cd ~
+git clone -b linux-5.10.y --single-branch --depth 1 https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git 
 cd linux
-curl https://raw.githubusercontent.com/KusakabeSi/UML-Config/main/5.10.config  --output .config
+cp ~/UML-Config/5.10.config .config
 make linux ARCH=um SUBARCH=x86_64 -j $(nproc)
 
 cd ~
@@ -15,8 +25,8 @@ cd EtherGuard-VPN
 make
 
 cd ~
-git clone https://gitlab.nic.cz/labs/bird.git
-cd BIRD-vpp
+git clone https://gitlab.nic.cz/labs/bird.git BIRD
+cd BIRD
 autoreconf
 ./configure --prefix=
 make
@@ -35,7 +45,7 @@ go build -ldflags "-w -s" -o proxy
 chmod 755 proxy
 cd ..
 
-v=0.0.18
+v=0.0.7
 set +e
 rm -r /tmp/*
 rm -r /tmp/.*

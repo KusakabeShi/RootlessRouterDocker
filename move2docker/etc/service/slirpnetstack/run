@@ -1,0 +1,28 @@
+#!/bin/bash
+. /.denv
+if [[ "$UML" == 1 ]]; then
+  echo "uml enabled, start slirpnetstack"
+  set -x
+  rm /run/slirpnetstack.sock
+  exec slirpnetstack \
+          -quiet \
+          -endpoint-type=sock-server \
+          -sock-protocol=unixpacket \
+          -sock-server-listen=/run/slirpnetstack.sock \
+          -allow=all \
+          -nat-ipv4=$UML_IF_SLIRP_IPV4_NET \
+          -gw-ipv4=$UML_IF_SLIRP_IPV4_GW \
+          -fwd-default-ipv4=$UML_IF_SLIRP_IP4 \
+          -gw-macaddr=02:42:c0:a8:2a:01 \
+          -L=tcp://127.0.0.1:$BIRD_CTL_PORT:$UML_IF_SLIRP_IP4:$BIRD_CTL_PORT \
+          -L=tcp://127.0.0.1:$BIRDLG_PROXY_PORT:$UML_IF_SLIRP_IP4:$BIRDLG_PROXY_PORT \
+          -L=tcp://127.0.0.1:2224:$UML_IF_SLIRP_IP4:2223 \
+          -L=tcp://127.0.0.1:2226:$UML_IF_SLIRP_IP4:2226 \
+          -L=tcp://127.0.0.1:5566:$UML_IF_SLIRP_IP4:5566
+
+    #con0=fd:0,fd:1 \
+else
+  echo "uml not enabled,slirpnetstack down"
+  sv down slirpnetstack
+  exec sleep infinity
+fi

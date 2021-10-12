@@ -28,8 +28,8 @@ apt-get -y install software-properties-common wget curl
 add-apt-repository universe
 apt-get -y update
 apt-get -y dist-upgrade
-apt-get -y install apt-utils runit locales openssh-server cron vim git sudo rsync nginx-extras jq gettext tcptraceroute cpulimit
-apt-get -y install unzip fish zsh tmux htop aria2 lsof tree ncdu \
+apt-get -y install apt-utils runit locales openssh-server cron vim git sudo rsync nginx-extras jq gettext tcptraceroute traceroute cpulimit
+apt-get -y install unzip fish zsh tmux htop aria2 lsof tree ncdu iptables tcpdump net-tools netcat-traditional wondershaper iperf3\
  python3-setuptools python3 python3-pip \
  net-tools iputils-\* p7zip-full p7zip-rar \
  gawk git-core gnupg2 netcat nmap dnsutils socat tor tor-geoipdb torsocks 
