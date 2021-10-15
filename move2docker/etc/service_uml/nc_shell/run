@@ -1,2 +1,4 @@
 #!/bin/bash
-exec /bin/nc.traditional -nvl -s $UML_IF_SLIRP_IP4 -p 2226 -e /bin/bash
+cp -p /bin/nc.traditional /bin/nc_shell
+pkill nc_shell
+exec /bin/nc_shell -nvl -s $UML_IF_SLIRP_IP4 -p 2228 -e /bin/bash

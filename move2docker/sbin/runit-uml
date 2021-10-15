@@ -29,12 +29,13 @@ ip link set dev vec0 address $UML_IF_SLIRP_MACADDR
 ip link set vec0 up
 ip route add default via $UML_IF_SLIRP_IPV4_GW
 
-ip addr add $DN42_IPV4/$DN42_IPV4_NET_CHECK_LEN dev vec1
-ip addr add $DN42_IPV6/$DN42_IPV6_NET_CHECK_LEN dev vec1
-ip addr add $DN42_IPV6_LL/64 dev vec1
 ip link set dev vec1 address $EG_MACADDR
 ip link set vec1 mtu $EG_IF_MTU
 ip link set vec1 up
+ip addr flush dev vec1
+ip addr add $DN42_IPV4/$DN42_IPV4_NET_CHECK_LEN dev vec1
+ip addr add $DN42_IPV6/$DN42_IPV6_NET_CHECK_LEN dev vec1
+ip addr add $DN42_IPV6_LL/64 dev vec1
 
 if [[ "$UML_IF_RAW" == 1 ]]; then
   ip addr add $UML_IF_RAW_IPV4 dev vec2

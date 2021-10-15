@@ -8,15 +8,9 @@ if [[ "$WG" == 1 ]]; then
   for f in *.sh; do
     bash "$f"
   done
-  while true
-  do
-    for scriptname in *.sh; do
-      [ -f "$scriptname" ] || continue
-      ifname=${scriptname::-3}
-      wg setconf "$ifname" "$ifname.conf"
-    done
-    sleep "$WG_SYNC_INTERVAL"
-  done
+  birdc configure
+  sleep "$WG_SYNC_INTERVAL"
+
 else
   echo "wg not enabled, down"
   sv down wg_sync
