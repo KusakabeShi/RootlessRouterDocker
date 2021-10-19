@@ -29,14 +29,14 @@ add-apt-repository universe
 apt-get -y update
 apt-get -y dist-upgrade
 apt-get -y install apt-utils runit locales openssh-server cron vim git sudo rsync nginx-extras jq gettext tcptraceroute traceroute cpulimit
-apt-get -y install unzip fish zsh tmux htop aria2 lsof tree ncdu iptables tcpdump net-tools netcat-traditional wondershaper iperf3\
+apt-get -y install unzip fish zsh tmux htop aria2 lsof tree ncdu iptables tcpdump net-tools netcat-traditional wondershaper iperf3 bind9 \
  python3-setuptools python3 python3-pip \
  net-tools iputils-\* p7zip-full p7zip-rar \
  gawk git-core gnupg2 netcat nmap dnsutils socat tor tor-geoipdb torsocks 
 pip3       install --upgrade speedtest-cli pycryptodome pyOpenSSL tornado pyyaml pyjwt PGPy gitpython
 
-wget http://www.vdberg.org/~richard/tcpping -O /usr/bin/tcping
-chmod 755 /usr/bin/tcping
+wget http://www.vdberg.org/~richard/tcpping -O /usr/bin/tcpping
+chmod 755 /usr/bin/tcpping
 
 cd /tmp
 rm -rf /var/lib/apt/lists/* ; localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 ; locale-gen en_US.UTF-8

@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /git_sync_root
+export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+git pull
+exec sleep infinity

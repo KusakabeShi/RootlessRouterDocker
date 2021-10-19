@@ -3,8 +3,7 @@
 if [[ "$BIRD" == 1 ]]; then
   echo "bird enabled, start bird_ctl"
   set +e
-  export SOCAT_SOCKADDR=$UML_IF_SLIRP_IP4
-  exec socat TCP4-LISTEN:$BIRD_CTL_PORT,fork,reuseaddr UNIX-CONNECT:/var/run/bird.ctl
+  exec socat TCP4-LISTEN:$BIRD_CTL_PORT,fork,reuseaddr,bind=$UML_IF_SLIRP_IP4 UNIX-CONNECT:/var/run/bird.ctl
 else
   echo "bird not enabled, bird_ctl down"
   sv down bird_ctl

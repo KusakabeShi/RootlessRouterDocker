@@ -4,8 +4,11 @@ if [[ "$DN42AP_WHOIS" == 1 ]]; then
   echo "dn42ap_whois enabled, start"
   if [ ! -d /etc/dn42ap_py ]; then
     echo "Directory not found!"
-    git clone --depth 1 https://github.com/KusakabeSi/DN42-AutoPeer.git /etc/dn42ap_py
-    #ln -s /ext/DN42-AutoPeer /etc/dn42ap_py
+    if [[ -d /ext ]]; then
+      ln -s /ext/DN42-AutoPeer /etc/dn42ap_py
+    else
+      git clone --depth 1 https://github.com/KusakabeSi/DN42-AutoPeer.git /etc/dn42ap_py
+    fi
     chmod 755 /etc/dn42ap_py/*
   fi
   cd /etc/dn42ap_py

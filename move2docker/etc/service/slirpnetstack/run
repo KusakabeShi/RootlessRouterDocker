@@ -15,10 +15,14 @@ if [[ "$UML" == 1 ]]; then
           -fwd-default-ipv4=$UML_IF_SLIRP_IP4 \
           -gw-macaddr=02:42:c0:a8:2a:01 \
           -L=tcp://127.0.0.1:$BIRD_CTL_PORT:$UML_IF_SLIRP_IP4:$BIRD_CTL_PORT \
-          -L=tcp://127.0.0.1:2224:$UML_IF_SLIRP_IP4:2223 \
+          -L=tcp://127.0.0.1:2224:$UML_IF_SLIRP_IP4:2224 \
           -L=tcp://127.0.0.1:2226:$UML_IF_SLIRP_IP4:2226 \
           -L=tcp://127.0.0.1:2227:$UML_IF_SLIRP_IP4:2227 \
-          -L=tcp://127.0.0.1:5566:$UML_IF_SLIRP_IP4:5566
+          -L=tcp://127.0.0.1:2228:$UML_IF_SLIRP_IP4:2228 \
+          -L=tcp://127.0.0.1:5566:$UML_IF_SLIRP_IP4:5566 \
+          -R=tcp://$UML_IF_SLIRP_IPV4_GW:2223:127.0.0.1:2223 \
+          -R=tcp://$UML_IF_SLIRP_IPV4_GW:$BIRDLG_PROXY_PORT:127.0.0.1:$BIRDLG_PROXY_PORT \
+          
 
     #con0=fd:0,fd:1 \
 else

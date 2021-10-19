@@ -45,6 +45,12 @@ if [[ "$UML_IF_RAW" == 1 ]]; then
   ip route add default via $UML_IF_RAW_IPV4_GW
 fi
 
+iptables -t nat -A PREROUTING -p tcp -i vec1 -s $DN42_IPV4_NET_CHECK -d $DN42_IPV4 --dport 2223 -j DNAT --to-destination $UML_IF_SLIRP_IPV4_GW:2223
+iptables -t nat -A POSTROUTING -d $UML_IF_SLIRP_IPV4_GW -p tcp -m tcp --dport 2223 -j SNAT --to-source $UML_IF_SLIRP_IP4
+
+iptables -t nat -A PREROUTING -p tcp -i vec1 -s $DN42_IPV4_NET_CHECK -d $DN42_IPV4 --dport $BIRDLG_PROXY_PORT -j DNAT --to-destination $UML_IF_SLIRP_IPV4_GW:$BIRDLG_PROXY_PORT
+iptables -t nat -A POSTROUTING -d $UML_IF_SLIRP_IPV4_GW -p tcp -m tcp --dport $BIRDLG_PROXY_PORT -j SNAT --to-source $UML_IF_SLIRP_IP4
+
 cp -rp /etc/service_uml/* /etc/service
 
 export LD_PRELOAD=/lib/runit-docker.so
