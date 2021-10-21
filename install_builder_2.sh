@@ -45,7 +45,7 @@ go build -ldflags "-w -s" -o proxy
 chmod 755 proxy
 cd ..
 
-v=0.0.10
+v=0.0.11
 set +e
 rm -r /tmp/*
 rm -r /tmp/.*
