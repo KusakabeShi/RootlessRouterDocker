@@ -8,7 +8,6 @@ if [[ "$WG" == 1 ]]; then
   for f in *.sh; do
     bash "$f"
   done
-  birdc configure
   sleep "$WG_SYNC_INTERVAL"
 
 else

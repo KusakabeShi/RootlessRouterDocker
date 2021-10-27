@@ -28,7 +28,7 @@ cd ~
 git clone https://gitlab.nic.cz/labs/bird.git BIRD
 cd BIRD
 autoreconf
-./configure --prefix=
+./configure --prefix= --sysconfdir=/etc/bird
 make
 make install
 
@@ -45,7 +45,7 @@ go build -ldflags "-w -s" -o proxy
 chmod 755 proxy
 cd ..
 
-v=0.0.11
+v=0.0
 set +e
 rm -r /tmp/*
 rm -r /tmp/.*

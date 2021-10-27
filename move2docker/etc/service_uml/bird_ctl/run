@@ -3,7 +3,19 @@
 if [[ "$BIRD" == 1 ]]; then
   echo "bird enabled, start bird_ctl"
   set +e
-  exec socat TCP4-LISTEN:$BIRD_CTL_PORT,fork,reuseaddr,bind=$UML_IF_SLIRP_IP4 UNIX-CONNECT:/var/run/bird.ctl
+  if birdc s p ; then
+    echo "BIRD ready, sleep 30set to wait setup"
+    sleep 30
+    echo "BIRD ready, set cpu limit"
+    mkdir -p /sys/fs/cgroup/cpu/bird/
+    echo 100000 > /sys/fs/cgroup/cpu/bird/cpu.cfs_period_us
+    echo $BIRD_CPU_QUOTA > /sys/fs/cgroup/cpu/bird/cpu.cfs_quota_us
+    true
+  else
+    echo "BIRD not ready, wait 8 seconds"
+    exec sleep 8
+  fi
+  exec socat -t5 -T10 TCP4-LISTEN:"$BIRD_CTL_PORT",fork,reuseaddr,bind="$UML_IF_SLIRP_IP4" UNIX-CONNECT:/var/run/bird.ctl
 else
   echo "bird not enabled, bird_ctl down"
   sv down bird_ctl

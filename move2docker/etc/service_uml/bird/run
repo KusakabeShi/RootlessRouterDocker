@@ -8,8 +8,6 @@ if [[ "$BIRD" == 1 ]]; then
   conf="/etc/bird/bird.conf"
   cat $template | sed -e 's/\${/＄/g' | sed 's/\$/${DOLLAR}/g' | sed 's/＄/${/g' | envsubst > $conf
   mkdir -p /sys/fs/cgroup/cpu/bird
-  echo 100000 > /sys/fs/cgroup/cpu/bird/cpu.cfs_period_us
-  echo 2000 > /sys/fs/cgroup/cpu/bird/cpu.cfs_quota_us
   exec /usr/bin/bird -f -c /etc/bird/bird.conf -P /sys/fs/cgroup/cpu/bird/tasks
 else
   echo "bird not enabled, down"
