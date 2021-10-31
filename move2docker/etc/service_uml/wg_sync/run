@@ -5,8 +5,14 @@ if [[ "$WG" == 1 ]]; then
   set +e
   set -x
   cd /etc/dn42ap
-  for f in *.sh; do
-    bash "$f"
+  for scriptname in *.sh; do
+    [ -f "$scriptname" ] || continue
+    ifname=${scriptname::-3}
+    if wg show "$ifname" ; then
+      wg setconf "$ifname" "$ifname.conf"
+    else
+      bash "$scriptname"
+    fi
   done
   sleep "$WG_SYNC_INTERVAL"
 
@@ -15,4 +21,3 @@ else
   sv down wg_sync
   exec sleep infinity
 fi
-
