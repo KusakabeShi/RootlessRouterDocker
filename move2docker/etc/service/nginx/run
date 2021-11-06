@@ -1,8 +1,14 @@
 #!/bin/bash
 . /.denv
 echo "Starting nginx"
-cd /etc/nginx/conf.d
 export DOLLAR='$'
+cd /var/www/html
+for template in *.template; do
+    [ -f "$template" ] || continue
+    conf=${template::-9}
+    cat $template | sed -e 's/\${/＄/g' | sed 's/\$/${DOLLAR}/g' | sed 's/＄/${/g' | envsubst > $conf
+done
+cd /etc/nginx/conf.d
 for template in *.template; do
     [ -f "$template" ] || continue
     conf=${template::-9}

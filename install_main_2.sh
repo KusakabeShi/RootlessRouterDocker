@@ -24,7 +24,7 @@ cpu_arch=$(get_cpu_architecture)
 
 mkdir /etc/uml
 cd /etc/uml
-dd if=/dev/zero of=data.img bs=1M count=512
+dd if=/dev/zero of=data.img bs=1M count=128
 mkfs.ext3 data.img
 
 # echo "Install & update"
