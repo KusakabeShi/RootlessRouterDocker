@@ -6,6 +6,8 @@ COPY   install_builder_1.sh    /tmp/
 RUN    bash /tmp/install_builder_1.sh
 COPY   install_builder_2.sh    /tmp/
 RUN    bash /tmp/install_builder_2.sh
+COPY   install_builder_3.sh    /tmp/
+RUN    bash /tmp/install_builder_3.sh
 
 FROM --platform=$TARGETPLATFORM ubuntu as main
 VOLUME ["/home"]

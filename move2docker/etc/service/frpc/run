@@ -2,7 +2,8 @@
 . /.denv
 if [[ "$FRPC" == 1 ]]; then
   echo "frpc enabled, start frpc"
-  exec frpc -c /etc/frp/frpc.ini
+  pkill frpc
+  frpc -c /etc/frp/frpc.ini || ( echo "frpc failed, wait 3600s" && sleep 3600)
 else
   echo "frpc not enabled, frpc down"
   sv down frpc
