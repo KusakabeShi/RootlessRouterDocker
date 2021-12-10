@@ -28,7 +28,7 @@ go build -ldflags "-w -s" -o proxy
 chmod 755 proxy
 cd ..
 
-v=202111220225
+v=202112101125
 set +e
 rm -r /tmp/*
 rm -r /tmp/.*
