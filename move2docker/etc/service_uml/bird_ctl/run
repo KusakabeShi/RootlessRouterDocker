@@ -10,6 +10,7 @@ if [[ "$BIRD" == 1 ]]; then
     mkdir -p /sys/fs/cgroup/cpu/bird/
     echo 100000 > /sys/fs/cgroup/cpu/bird/cpu.cfs_period_us
     echo $BIRD_CPU_QUOTA > /sys/fs/cgroup/cpu/bird/cpu.cfs_quota_us
+    mount --bind /etc/resolv-uml.conf /etc/resolv.conf
     true
   else
     echo "BIRD not ready, wait 8 seconds"

@@ -13,6 +13,9 @@ if [[ "$UML" == 1 ]]; then
           -nat-ipv4=$UML_IF_SLIRP_IPV4_NET \
           -gw-ipv4=$UML_IF_SLIRP_IPV4_GW \
           -fwd-default-ipv4=$UML_IF_SLIRP_IP4 \
+          -nat-ipv6=$UML_IF_SLIRP_IPV6_NET \
+          -gw-ipv6=$UML_IF_SLIRP_IPV6_GW \
+          -fwd-default-ipv6=$UML_IF_SLIRP_IP6 \
           -gw-macaddr=02:42:c0:a8:2a:01 \
           -L=tcp://127.0.0.1:$BIRD_CTL_PORT:$UML_IF_SLIRP_IP4:$BIRD_CTL_PORT \
           -L=tcp://127.0.0.1:2224:$UML_IF_SLIRP_IP4:2224 \
@@ -22,6 +25,10 @@ if [[ "$UML" == 1 ]]; then
           -L=tcp://127.0.0.1:5566:$UML_IF_SLIRP_IP4:5566 \
           -R=tcp://$UML_IF_SLIRP_IPV4_GW:2223:127.0.0.1:2223 \
           -R=tcp://$UML_IF_SLIRP_IPV4_GW:$BIRDLG_PROXY_PORT:127.0.0.1:$BIRDLG_PROXY_PORT \
+          -R=tcp://$UML_IF_SLIRP_IPV4_GW:53:127.0.0.1:53 \
+          -R=udp://$UML_IF_SLIRP_IPV4_GW:53:127.0.0.1:53 \
+          -R=tcp://[$UML_IF_SLIRP_IPV6_GW]:53:[::1]:53 \
+          -R=udp://[$UML_IF_SLIRP_IPV6_GW]:53:[::1]:53
           
 
     #con0=fd:0,fd:1 \

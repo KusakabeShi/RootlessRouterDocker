@@ -9,7 +9,7 @@ mount /dev/ubda /mnt/data || true
 mkdir -p /mnt/data/diff
 mkdir -p /mnt/data/work
 
-mount -t overlay overlay -o lowerdir=/,upperdir=/mnt/data/diff,workdir=/mnt/data/work /
+#mount -t overlay overlay -o lowerdir=/,upperdir=/mnt/data/diff,workdir=/mnt/data/work /
 
 mount -t tmpfs tmpfs /run
 mount --bind /run /var/run
@@ -35,7 +35,7 @@ for sys in $(awk '!/^#/ { if ($4 == 1) print $1 }' /proc/cgroups); do
 done
 
 ln -s /proc/self/fd /dev/fd
-
+set -x
 sysctl -w net.ipv4.ip_forward=1
 sysctl -w net.ipv6.conf.default.forwarding=1
 sysctl -w net.ipv6.conf.all.forwarding=1
@@ -43,12 +43,19 @@ sysctl -w net.ipv4.conf.default.rp_filter=0
 sysctl -w net.ipv4.conf.all.rp_filter=0
 
 ip link add dn42-dummy type dummy
-ip addr add $DN42_IPV4 dev dn42-dummy
-ip addr add $DN42_IPV6 dev dn42-dummy
+ip link set dn42-dummy up
+ip addr add $DN42_IPV4                       dev dn42-dummy
+ip addr add $DN42_IPV6                       dev dn42-dummy
+ip addr add $DN42_IPV4_BOARDCAST_ANYCAST/32  dev dn42-dummy
+ip addr add $DN42_IPV6_BOARDCAST_ANYCAST/128 dev dn42-dummy
 
+ip link set lo up
+ip    addr  add       $DN42_IPV4_NET_BOARDCAST_ANYCAST dev lo
+ip -6 route add local $DN42_IPV6_NET_BOARDCAST_ANYCAST dev lo
+
+ip link set vec0 up
 ip addr add $UML_IF_SLIRP_IPV4 dev vec0
 ip link set dev vec0 address $UML_IF_SLIRP_MACADDR
-ip link set vec0 up
 ip route add default via $UML_IF_SLIRP_IPV4_GW
 
 ip link set dev vec1 address $EG_MACADDR
