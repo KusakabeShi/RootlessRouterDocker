@@ -31,7 +31,7 @@ ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/authorized_keys
 git clone --depth 1 $GIT_REPO_ADDR /git_sync_root
 ln -s git_sync_root/${NODE_NAME} /git_sync_self
 #exec bash
-rsync -a --keep-dirlinks /git_sync_root/_common/ /
+rsync -a --keep-dirlinks /git_sync_root/_common_ow/ /
 rsync -a --keep-dirlinks /git_sync_root/${NODE_NAME}/ow/ /
 
 python3 /git_sync_root/env_2_bash.py /git_sync_root/_common_env /git_sync_root/${NODE_NAME}/env > /.denv

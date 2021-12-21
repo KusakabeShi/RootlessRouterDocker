@@ -13,9 +13,9 @@ mkdir -p $PERM_ROOT/etc       ; mv    /etc/crontab        $PERM_ROOT/etc/crontab
 mkdir -p $PERM_ROOT/etc       ; mv    /etc/tor            $PERM_ROOT/etc/tor             ; ln -s ../home/root/.rootfs/etc/tor                 /etc/tor
 mkdir -p $PERM_ROOT/var/www   ; mv    /var/www/html       $PERM_ROOT/var/www/html        ; ln -s ../../home/root/.rootfs/var/www/html         /var/www/html
                                                                                            ln -s ../home/root/.rootfs/etc/rc.local            /etc/rc.local
-mkdir -p /etc/wggo-vpp_template;                                                           ln -s /git_sync_self/etc/wggo-vpp_template/if      /etc/wggo-vpp_template/if
 mkdir -p /etc/bird            ;                                                            ln -s /git_sync_self/etc/bird/peers                /etc/bird/peers
-                                                                                           ln -s /git_sync_self/etc/dn42ap                    /etc/dn42ap     
+                                                                                           ln -s /git_sync_self/etc/dn42ap                    /etc/dn42ap
+rm -rf /etc/bind              ;                                                            ln -s /git_sync_root/_common/etc/bind              /etc/bind
 ls -al /etc
 rm -r /etc/nginx/sites-enabled/*
 rm -r /etc/nginx/sites-available/*
