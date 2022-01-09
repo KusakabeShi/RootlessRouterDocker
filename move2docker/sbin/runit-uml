@@ -82,7 +82,6 @@ iptables -t nat -A POSTROUTING -d $UML_IF_SLIRP_IPV4_GW -p tcp -m tcp --dport $B
 
 cp -rp /etc/service_uml/* /etc/service
 
-export LD_PRELOAD=/lib/runit-docker.so
 source /etc/profile
 export HOME=/root
 

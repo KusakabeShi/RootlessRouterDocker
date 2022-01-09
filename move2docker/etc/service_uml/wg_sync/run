@@ -7,9 +7,9 @@ if [[ "$WG" == 1 ]]; then
   cd /etc/dn42ap
   for scriptname in *.sh; do
     [ -f "$scriptname" ] || continue
-    ifname=${scriptname::-3}
+    ifname=dn42-${scriptname::-3}
     if wg show "$ifname" ; then
-      wg setconf "$ifname" "$ifname.conf"
+      wg setconf "$ifname" "${scriptname::-3}.conf"
     else
       bash "$scriptname"
     fi
