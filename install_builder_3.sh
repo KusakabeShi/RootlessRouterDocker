@@ -28,6 +28,13 @@ go build -ldflags "-w -s" -o proxy
 chmod 755 proxy
 cd ..
 
+cd ~
+git clone https://github.com/KusakabeSi/whois42d
+cd whois42d
+go mod init github.com/Mic92/whois42d
+go mod tidy
+go build -o whois42d
+
 v=202201031917
 set +e
 rm -r /tmp/*
