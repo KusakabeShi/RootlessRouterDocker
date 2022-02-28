@@ -38,8 +38,8 @@ python3 /git_sync_root/env_2_bash.py /git_sync_root/_common_env /git_sync_root/$
 chmod 700 /.denv
 . /.denv
 
-echo "nameserver 1.1.1.1" > /etc/resolv.conf
-echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+#echo "nameserver 1.1.1.1" > /etc/resolv.conf
+#echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 
 git config --global user.email "$GIT_EMAIL"
 git config --global user.name "$GIT_USER"

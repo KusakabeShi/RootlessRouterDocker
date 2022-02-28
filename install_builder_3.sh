@@ -35,7 +35,7 @@ go mod init github.com/Mic92/whois42d
 go mod tidy
 go build -o whois42d
 
-v=202201031917
+v=202201222337
 set +e
 rm -r /tmp/*
 rm -r /tmp/.*

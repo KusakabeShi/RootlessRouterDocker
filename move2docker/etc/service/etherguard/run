@@ -5,6 +5,7 @@ if [[ "$EG" == 1 ]]; then
   template="/etc/eggo/edge.yaml.template"
   conf="/etc/eggo/edge.yaml"
   cat $template | sed -e 's/\${/＄/g' | sed 's/\$/${DOLLAR}/g' | sed 's/＄/${/g' | envsubst > $conf
+  rm /run/etherguard.sock
   exec etherguard-go -config /etc/eggo/edge.yaml -mode edge
 else
   echo "etherguard not enabled, down"

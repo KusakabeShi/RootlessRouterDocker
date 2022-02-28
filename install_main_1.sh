@@ -33,7 +33,7 @@ apt-get -y install unzip fish zsh tmux htop aria2 lsof tree ncdu iptables tcpdum
  python3-setuptools python3 python3-pip \
  net-tools iputils-\* p7zip-full p7zip-rar \
  gawk git-core gnupg2 netcat nmap dnsutils socat tor tor-geoipdb torsocks 
-pip3       install --upgrade speedtest-cli pycryptodome pyOpenSSL tornado pyyaml pyjwt PGPy gitpython
+pip3       install --upgrade speedtest-cli pycryptodome pyOpenSSL tornado pyyaml pyjwt PGPy gitpython pynacl
 
 wget http://www.vdberg.org/~richard/tcpping -O /usr/bin/tcpping
 chmod 755 /usr/bin/tcpping
